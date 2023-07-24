@@ -72,6 +72,8 @@ button { font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI"
     top: 65px;
 }
 .graph-op-button-download:active {  background: #e7e7e7; }
+
+
 .download-checkbox-shapeInference {
     position:absolute;
     left: 120px;
@@ -123,6 +125,23 @@ button { font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI"
     left: 2px;
     top: 135px;
 }
+
+/* user input start */
+.graph-op-button-addText {
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 3px;
+    color: black;
+    font-family:"Oliviar Sans Light";
+    font-size: 20px;
+    position:absolute;
+    left: 2px;
+    top: 160px;
+}
+.graph-op-button-addText:active {  background: #e7e7e7; }
+/* user input end */
+
 .icon .border { stroke: #fff; }
 .icon .stroke { stroke: #808080; }
 .icon:hover .stroke { stroke: #000000; }
@@ -253,8 +272,8 @@ button { font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI"
 </div>
 <div id="sidebar" class="sidebar"></div>
 <div id="toolbar" class="toolbar">
-    <button id="menu-button" class="toolbar-button" title="Menu">
-        <svg class="icon" viewbox="0 0 100 100">
+    <button id="menu-button" class="toolbar-button" title="Meu">
+        <svg class="icon" viewbox="0 0 100 100"> <!-- (0,0) 좌표에서 (width, Height) = (100,100)-->
             <rect class="border" x="12" y="12" width="76" height="76" rx="16" ry="16" stroke-width="8"></rect>
             <line class="border" x1="30" y1="37" x2="70" y2="37" stroke-width="8" stroke-linecap="round" stroke="#fff"></line>
             <line class="border" x1="30" y1="50" x2="70" y2="50" stroke-width="8" stroke-linecap="round" stroke="#fff"></line>
@@ -291,6 +310,7 @@ button { font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI"
 
     <button id="reset-graph" class="graph-op-button-reset">Reset</button>
     <button id="download-graph" class="graph-op-button-download">Download</button>
+    <button id="add-text" class="graph-op-button-addText">Add Text</button>
     <input type="checkbox" id="shapeInference" class="download-checkbox-shapeInference"/> 
     <input type="text" value="shape inference" class="download-anno-shapeInference" readonly/> </td>
     <input type="checkbox" id="cleanUp" class="download-checkbox-cleanUp"/> 

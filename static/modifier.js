@@ -33,7 +33,7 @@ modifier.Modifier = class {
     }
 
     // TODO: add filter feature like here: https://www.w3schools.com/howto/howto_js_dropdown.asp
-    updateAddNodeDropDown() {
+    updateAddNodeDropDown() { // 드롭다운 메뉴 업데이트 
         // update dropdown supported node lost
         var addNodeDropdown = this.view._host.document.getElementById('add-node-dropdown');
         for (const node of this.model.supported_nodes) {
@@ -411,12 +411,14 @@ modifier.Modifier = class {
         // reset node states
         for (const name of this.name2NodeStates.keys()) {
             this.name2NodeStates.set(name, 'Exist');
+            // console.log(name)
         }
 
         // console.log(this.modifier.renameMap)
         // reset node inputs/outputs
         for (const changed_node_name of this.renameMap.keys()) {
             var node = this.name2ModelNode.get(changed_node_name);
+            // console.log(changed_node_name)
             // console.log(node)
             // console.log(typeof node)
             // console.log(node.constructor.name)

@@ -267,6 +267,7 @@ host.BrowserHost = class {
             });
         });
 
+        // 이벤트 리스터를 추가하여 'add-node' 버튼을 클릭할 때 실행되는 동작을 정의하는 부분 
         const addNodeButton = this.document.getElementById('add-node');
         addNodeButton.addEventListener('click', () => {
             // this._view._graph.resetGraph();
@@ -275,7 +276,7 @@ host.BrowserHost = class {
             var selected_val = addNodeDropDown.options[addNodeDropDown.selectedIndex].value
             var add_op_domain = selected_val.split(':')[0]
             var add_op_type = selected_val.split(':')[1]
-            // console.log(selected_val)
+            // console.log(selected_val) // "(format) ai.onnx:Abs"
             // this._view._graph.add_node(add_op_domain, add_op_type)
             this._view.modifier.addNode(add_op_domain, add_op_type);
             this._view._updateGraph();
@@ -314,7 +315,7 @@ host.BrowserHost = class {
                 openFileDialog.value = '';
                 openFileDialog.click();
             });
-            openFileDialog.addEventListener('change', (e) => {
+            openFileDialog.addEventListener('change', (e) => { // file 요소는 보안상의 이유로 자바스크립트를 통해 클릭 이벤트를 실행하는 것을 허용하지 않음 
                 if (e.target && e.target.files && e.target.files.length > 0) {
                     const files = Array.from(e.target.files);
                     const file = files.find((file) => this._view.accept(file.name));
@@ -323,19 +324,21 @@ host.BrowserHost = class {
                     var form = new FormData();
                     form.append('file', file);
 
+                    // 서버로 파일 업로드 요청 (POST 요청)
+                    // fetch API를 사용하며 '/open_model' URL로 FromData를 보내고, 응답을 받음 
                     // https://stackoverflow.com/questions/66039996/javascript-fetch-upload-files-to-python-flask-restful
                     fetch('/open_model', {
                         method: 'POST',
-                        body: form
-                    }).then(function (response) {
+                        body: form // FormData를 요청의 body로 지정
+                    }).then(function (response) { // 응답 데이터를 텍스트로 변환하여 반환
                         return response.text();
                     }).then(function (text) {
-                        console.log('POST response: ');
+                        console.log('POST response: '); // 서버 응답을 콘솔에 출력 (텍스트로 반환된 내용)
                         // Should be 'OK' if everything was successful
                         console.log(text);
                     });
 
-
+                    // 선택한 파일이 존재하면 '_open' 함수를 호출하고 선택한 파일과 전체 파일 리스트를 전달
                     if (file) {
                         this._open(file, files);
                     }

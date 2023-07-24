@@ -32,7 +32,7 @@ def modify_and_download_model():
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--host', type=str, default='127.0.0.1', help='the hostname to listen on. Set this to "0.0.0.0" to have the server available externally as well')
-    parser.add_argument('--port', type=int, default=5000, help='the port of the webserver. Defaults to 5000.')
+    parser.add_argument('--port', type=int, default=5003, help='the port of the webserver. Defaults to 5000.')
     parser.add_argument('--debug', type=bool, default=False, help='enable or disable debug mode.')
     
     args = parser.parse_args()
