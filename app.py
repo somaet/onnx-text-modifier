@@ -13,16 +13,48 @@ def index():
 def open_model():
     # https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask
     onnx_file = request.files['file']
-
     global onnx_modifier
     onnx_modifier = onnxModifier.from_name_stream(onnx_file.filename, onnx_file.stream)
-
+    print(onnx_file.name, onnx_file.stream)
     return 'OK', 200
+
+# user start 
+
+def read_temporary_file_to_list(temp_file):
+    temp_file.seek(0)  # 파일 포인터를 파일의 처음으로 이동
+    #content_list = temp_file.readlines()  # 파일의 내용을 리스트로 읽기
+    content_list = [line.strip() for line in temp_file]
+    temp_file.close()
+    return content_list
+
+@app.route('/open_text', methods=['POST'])
+def open_text():
+    #print("hello")
+    text_file = request.files['file']
+    #print(text_file.name, text_file.stream)
+    content_list = read_temporary_file_to_list(text_file)
+
+    #global onnx_modifier
+    #text_plan = onnxModifier.from_name_stream(text_file.filename, text_file.stream)
+    #print(text_file.name, text_file.stream)
+    return 'OK', 200
+
+@app.route('/download_text', methods=['POST'])
+def text_and_download_model():
+    modify_info = request.get_json()    
+
+    print(modify_info)
+    
+    return 'OK', 200
+
+# user end 
+
 
 @app.route('/download', methods=['POST'])
 def modify_and_download_model():
-    modify_info = request.get_json()
-    # print(modify_info)
+    modify_info = request.get_json()    
+
+    print(modify_info)
     onnx_modifier.reload()   # allow downloading for multiple times
     onnx_modifier.modify(modify_info)
     onnx_modifier.check_and_save_model()

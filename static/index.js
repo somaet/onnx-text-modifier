@@ -317,13 +317,17 @@ host.BrowserHost = class {
             });
             openFileDialog.addEventListener('change', (e) => { // file 요소는 보안상의 이유로 자바스크립트를 통해 클릭 이벤트를 실행하는 것을 허용하지 않음 
                 if (e.target && e.target.files && e.target.files.length > 0) {
+                    console.log(e.target)
+                    console.log(e.target.files) 
+                    console.log(e.target.files.length)
                     const files = Array.from(e.target.files);
+                    console.log(files)
                     const file = files.find((file) => this._view.accept(file.name));
-                    // console.log(file)
+                    console.log(file)
+                    console.log(files[0]==file)
                     this.upload_filename = file.name;
                     var form = new FormData();
                     form.append('file', file);
-
                     // 서버로 파일 업로드 요청 (POST 요청)
                     // fetch API를 사용하며 '/open_model' URL로 FromData를 보내고, 응답을 받음 
                     // https://stackoverflow.com/questions/66039996/javascript-fetch-upload-files-to-python-flask-restful
@@ -335,7 +339,7 @@ host.BrowserHost = class {
                     }).then(function (text) {
                         console.log('POST response: '); // 서버 응답을 콘솔에 출력 (텍스트로 반환된 내용)
                         // Should be 'OK' if everything was successful
-                        console.log(text);
+                        //console.log(text);
                     });
 
                     // 선택한 파일이 존재하면 '_open' 함수를 호출하고 선택한 파일과 전체 파일 리스트를 전달
@@ -345,6 +349,92 @@ host.BrowserHost = class {
                 }
             });
         }
+
+        /* user start */ 
+
+        const openTextButton = this.document.getElementById('open-text-button');
+        const openTextDialog = this.document.getElementById('open-text-dialog');
+        if (openTextButton && openTextDialog) {
+            openTextButton.addEventListener('click', () => {
+                openTextDialog.value = '';
+                openTextDialog.click();
+            });
+            openTextDialog.addEventListener('change', (e) => { // file 요소는 보안상의 이유로 자바스크립트를 통해 클릭 이벤트를 실행하는 것을 허용하지 않음 
+                if (e.target && e.target.files && e.target.files.length > 0) {
+                    console.log(e.target)
+                    console.log(e.target.files) 
+                    console.log(e.target.files.length)
+                    const files = Array.from(e.target.files);
+                    console.log(files)
+                    // const file = files.find((file) => this._view.accept(file.name));
+                    const file = files[0]
+                    console.log(file)
+                    this.upload_filename = file.name;
+                    var form = new FormData();
+                    form.append('file', file);
+
+                    // 서버로 파일 업로드 요청 (POST 요청)
+                    // fetch API를 사용하며 '/open_model' URL로 FromData를 보내고, 응답을 받음 
+                    // https://stackoverflow.com/questions/66039996/javascript-fetch-upload-files-to-python-flask-restful
+                    fetch('/open_text', {
+                        method: 'POST',
+                        body: form // FormData를 요청의 body로 지정
+                    }).then(function (response) { // 응답 데이터를 텍스트로 변환하여 반환
+                        return response.text();
+                    }).then(function (text) {
+                        console.log('POST response: '); // 서버 응답을 콘솔에 출력 (텍스트로 반환된 내용)
+                        // Should be 'OK' if everything was successful
+                        console.log(text);
+                    });
+
+                    // 선택한 파일이 존재하면 '_open' 함수를 호출하고 선택한 파일과 전체 파일 리스트를 전달
+                    /*if (file) {
+                        this._open(file, files);
+                    }
+                    */
+                    
+                }
+            });
+        }
+
+        /*----------------------*/
+
+        const textDownloadButton = this.document.getElementById('download-text-graph');
+        textDownloadButton.addEventListener('click', () => {
+
+            // console.log(this._view._graph._addedNode)
+            // console.log(this._view._graph._renameMap)
+            // // https://healeycodes.com/talking-between-languages
+            fetch('/download_text', {
+                // Declare what type of data we're sending
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                // Specify the method
+                method: 'POST',
+                body: JSON.stringify({"text" : true})
+            }).then(function (response) {
+                return response.text();
+            }).then(function (text) {
+                console.log('POST response: ');
+                // Should be 'OK' if everything was successful
+                console.log(text);
+                if (text == 'OK') {
+                    // alert("Modified model has been successfuly saved in ./modified_onnx/");
+                    swal("Success!", "Modified model has been successfuly saved in ./text_onnx/", "success");
+                }
+                else {
+                    // swal("Error happens!", "You are kindly to create an issue on https://github.com/ZhangGe6/onnx-modifier", "error");
+                    swal("Error happens!", "You are kindly to check the log and create an issue on https://github.com/ZhangGe6/onnx-modifier", "error");
+                    // alert('Error happens, you can find it out or create an issue on https://github.com/ZhangGe6/onnx-modifier')
+                }
+            });
+        });
+
+        /* user end */
+
+
+
         const githubButton = this.document.getElementById('github-button');
         const githubLink = this.document.getElementById('logo-github');
         if (githubButton && githubLink) {
