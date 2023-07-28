@@ -1,0 +1,135 @@
+{'Convolution28_Output_0': name: "Convolution28_Output_0"
+type {
+  tensor_type {
+    elem_type: 1
+    shape {
+      dim {
+        dim_value: 1
+      }
+      dim {
+        dim_value: 8
+      }
+      dim {
+        dim_value: 28
+      }
+      dim {
+        dim_value: 28
+      }
+    }
+  }
+}
+, 'ReLU32_Output_0': name: "ReLU32_Output_0"
+type {
+  tensor_type {
+    elem_type: 1
+    shape {
+      dim {
+        dim_value: 1
+      }
+      dim {
+        dim_value: 8
+      }
+      dim {
+        dim_value: 28
+      }
+      dim {
+        dim_value: 28
+      }
+    }
+  }
+}
+, 'Pooling66_Output_0': name: "Pooling66_Output_0"
+type {
+  tensor_type {
+    elem_type: 1
+    shape {
+      dim {
+        dim_value: 1
+      }
+      dim {
+        dim_value: 8
+      }
+      dim {
+        dim_value: 14
+      }
+      dim {
+        dim_value: 14
+      }
+    }
+  }
+}
+, 'Convolution110_Output_0': name: "Convolution110_Output_0"
+type {
+  tensor_type {
+    elem_type: 1
+    shape {
+      dim {
+        dim_value: 1
+      }
+      dim {
+        dim_value: 16
+      }
+      dim {
+        dim_value: 14
+      }
+      dim {
+        dim_value: 14
+      }
+    }
+  }
+}
+, 'ReLU114_Output_0': name: "ReLU114_Output_0"
+type {
+  tensor_type {
+    elem_type: 1
+    shape {
+      dim {
+        dim_value: 1
+      }
+      dim {
+        dim_value: 16
+      }
+      dim {
+        dim_value: 14
+      }
+      dim {
+        dim_value: 14
+      }
+    }
+  }
+}
+, 'Pooling160_Output_0': name: "Pooling160_Output_0"
+type {
+  tensor_type {
+    elem_type: 1
+    shape {
+      dim {
+        dim_value: 1
+      }
+      dim {
+        dim_value: 16
+      }
+      dim {
+        dim_value: 4
+      }
+      dim {
+        dim_value: 4
+      }
+    }
+  }
+}
+, 'Pooling160_Output_0_reshape0': name: "Pooling160_Output_0_reshape0"
+type {
+  tensor_type {
+    elem_type: 1
+    shape {
+      dim {
+        dim_value: 1
+      }
+      dim {
+        dim_value: 256
+      }
+    }
+  }
+}
+}
