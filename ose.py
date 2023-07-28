@@ -186,3 +186,17 @@ def extract_model(
     extracted = e.extract_model(input_names, output_names)
 
     return extracted
+
+
+
+def save_node_names(model_proto, output_file):
+    # Load the ONNX model
+    model = model_proto
+
+    # Open a text file for writing
+    with open(output_file, 'w') as f:
+        f.write(model.graph.input[0].name + '\n')
+        # Iterate over the nodes in the model
+        for node in model.graph.node:
+            # Write the node name to the file
+            f.write(node.name + '\n')

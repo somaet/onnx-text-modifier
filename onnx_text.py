@@ -13,12 +13,9 @@ class onnxText:
         print("load text...")
         stream.seek(0)
         content_list = [line.decode('utf-8').strip() for line in stream]
-        print(content_list)
         stream.close()
         return cls(content_list)
     
-
-
 class onnxDownload: 
     def __init__(self, model_proto, nodes, submodels):
         self.model_proto = model_proto

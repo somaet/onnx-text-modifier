@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, request
 from onnx_modifier import onnxModifier
 from onnx_text import onnxText, onnxDownload
+import ose
 
 app = Flask(__name__)
 
@@ -17,31 +18,28 @@ def open_model():
     onnx_file = request.files['file']
     global onnx_modifier
     onnx_modifier = onnxModifier.from_name_stream(onnx_file.filename, onnx_file.stream)
-    print(onnx_file.name, onnx_file.stream)
     return 'OK', 200
 
 # user start 
 
 @app.route('/open_text', methods=['POST'])
 def open_text():
-    #print("hello")
     text_file = request.files['file']
     global onnx_text 
     onnx_text = onnxText.from_stream(text_file.stream)
-    print(onnx_text.nodes)
-    #global onnx_modifier~
-    #text_plan = onnxModifier.from_name_stream(text_file.filename, text_file.stream)
-    #print(text_file.name, text_file.stream)
     return 'OK', 200
 
 @app.route('/download_text', methods=['POST'])
 def text_and_download_model():
     modify_info = request.get_json()    
 
+
     global onnx_download
-    onnx_download = onnxDownload.from_model(onnx_modifier.model_proto, onnx_text.nodes)
-    onnx_download.save_model()
-    
+    try:
+        onnx_download = onnxDownload.from_model(onnx_modifier.model_proto, onnx_text.nodes)
+        onnx_download.save_model()
+    except NameError: 
+        ose.save_node_names(onnx_modifier.model_proto, "./text_onnx/node_names.txt")
     return 'OK', 200
 
 # user end 
@@ -51,7 +49,6 @@ def text_and_download_model():
 def modify_and_download_model():
     modify_info = request.get_json()    
 
-    print(modify_info)
     onnx_modifier.reload()   # allow downloading for multiple times
     onnx_modifier.modify(modify_info)
     onnx_modifier.check_and_save_model()
