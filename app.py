@@ -28,8 +28,8 @@ def open_text():
     text_file = request.files['file']
     global onnx_text 
     onnx_text = onnxText.from_stream(text_file.stream)
-
-    #global onnx_modifier
+    print(onnx_text.nodes)
+    #global onnx_modifier~
     #text_plan = onnxModifier.from_name_stream(text_file.filename, text_file.stream)
     #print(text_file.name, text_file.stream)
     return 'OK', 200
@@ -37,8 +37,9 @@ def open_text():
 @app.route('/download_text', methods=['POST'])
 def text_and_download_model():
     modify_info = request.get_json()    
-    print(modify_info)
-    onnx_download = onnxDownload.from_model(onnx_modifier.model_proto, onnx_text)
+
+    global onnx_download
+    onnx_download = onnxDownload.from_model(onnx_modifier.model_proto, onnx_text.nodes)
     onnx_download.save_model()
     
     return 'OK', 200
