@@ -274,12 +274,24 @@ grapher.Node = class {
         this.element = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         if (this.id) {
             this.element.setAttribute('id', this.id);
-            //console.log(convertNodeNames([this.id])[0])
+            console.log(convertNodeNames([this.id])[0]);
         } 
-
-        console.log(window.__dataList__)
-
-        this.element.setAttribute('class', this.class ? 'node2 ' + this.class : 'node2');
+        console.log(window.__dataList__);
+        if (window.__dataList__.length > 0 && typeof this.id !== 'undefined') {
+            // if (convertNodeNames([this.id])[0] == window.__dataList__[0]) {
+            if (window.__dataList__.includes(convertNodeNames([this.id])[0])) {
+                this.element.setAttribute('class', this.class ? 'node2 ' + this.class : 'node2');
+            }
+            else { 
+                this.element.setAttribute('class', this.class ? 'node ' + this.class : 'node');
+            }
+        }
+        else {
+            this.element.setAttribute('class', this.class ? 'node ' + this.class : 'node');
+            console.log(3)
+        }
+       
+        // this.element.setAttribute('class', this.class ? 'node2 ' + this.class : 'node2');
         // this.element.setAttribute('class', this.class ? 'node ' + this.class : 'node');
         this.element.style.opacity = 0;
         parent.appendChild(this.element);

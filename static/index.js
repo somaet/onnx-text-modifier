@@ -150,7 +150,7 @@ host.BrowserHost = class {
 
     start() {
 
-        window.__dataList__ = ["before"]
+        window.__dataList__ = [];
 
         this.window.addEventListener('error', (e) => {
             this.exception(e.error, true);
