@@ -149,10 +149,13 @@ host.BrowserHost = class {
 
 
     start() {
+
+        window.__dataList__ = ["before"]
+
         this.window.addEventListener('error', (e) => {
             this.exception(e.error, true);
         });
-
+        
         const params = new URLSearchParams(this.window.location.search);
         this._environment.set('zoom', params.has('zoom') ? params.get('zoom') : this._environment.get('zoom'));
 
@@ -419,8 +422,11 @@ host.BrowserHost = class {
 
                     // 선택한 파일이 존재하면 '_open' 함수를 호출하고 선택한 파일과 전체 파일 리스트를 전달
                     if (file) {
-                        let dataList;
-                        dataList = readFileToList(file);
+                        readFileToList(file, (dataList) => {
+                            window.__dataList__ = dataList;
+                            //console.log(window.__dataList__)
+                        });
+                        
                     }                   
                 }
             });
