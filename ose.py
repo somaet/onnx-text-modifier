@@ -65,6 +65,29 @@ class Extractor:
                 self._dfs_search_reachable_nodes(
                     name, graph_input_names, reachable_nodes
                 )
+    def _ose_search_reachable_nodes(
+        self, 
+        node_names: list[str],
+        reachable_nodes: list[NodeProto],
+    ) -> None:
+        for node in self.graph.node:
+            for node_name in node_names[1:]:
+                if node_name not in node.output:
+                    continue
+                if node in reachable_nodes:
+                    continue
+                reachable_nodes.append(node)
+
+    def _ose_reachable_nodes(
+        self,
+        node_names: list[str]
+    ) -> list[NodeProto]:
+        reachable_nodes = []  # type: ignore[var-annotated]
+        self._ose_search_reachable_nodes(node_names, reachable_nodes)
+        # needs to be topology sorted.
+        nodes = [n for n in self.graph.node if n in reachable_nodes]
+        return nodes
+
 
     def _collect_reachable_nodes(
         self,
@@ -73,6 +96,7 @@ class Extractor:
     ) -> list[NodeProto]:
         reachable_nodes = []  # type: ignore[var-annotated]
         for name in output_names:
+            print(output_names, name)
             self._dfs_search_reachable_nodes(name, input_names, reachable_nodes)
         # needs to be topology sorted.
         nodes = [n for n in self.graph.node if n in reachable_nodes]
@@ -162,6 +186,7 @@ class Extractor:
         input_names: list[str],
         output_names: list[str],
     ) -> ModelProto:
+        
         inputs = self._collect_new_inputs(input_names)
         outputs = self._collect_new_outputs(output_names)
         nodes = self._collect_reachable_nodes(input_names, output_names)
@@ -170,7 +195,21 @@ class Extractor:
         model = self._make_model(
             nodes, inputs, outputs, initializer, value_info, local_functions
         )
+        return model
 
+    def extract_text_model(
+        self,
+        node_names: list[str]
+    ) -> ModelProto:
+        print(node_names[0])
+        inputs = self._collect_new_inputs([node_names[0]])
+        outputs = self._collect_new_outputs([node_names[-1]])
+        nodes = self._ose_reachable_nodes(node_names)
+        initializer, value_info = self._collect_reachable_tensors(nodes)
+        local_functions = self._collect_referred_local_functions(nodes)
+        model = self._make_model(
+            nodes, inputs, outputs, initializer, value_info, local_functions
+        )
         return model
 
 
@@ -187,6 +226,18 @@ def extract_model(
 
     return extracted
 
+def extract_text_model(
+    input_model,
+    node_names: list[str],
+    check_model: bool = True,
+) -> None:
+
+    model = input_model
+    e = Extractor(model)
+    extracted = e.extract_text_model(node_names)
+
+    return extracted
+
 
 
 def save_node_names(model_proto, output_file):
@@ -200,3 +251,10 @@ def save_node_names(model_proto, output_file):
         for node in model.graph.node:
             # Write the node name to the file
             f.write(node.name + '\n')
+
+
+def save_to_txt(var_name, var_value, folder='./profiling/'):
+    file_name = f"{folder}{var_name}.txt"
+    with open(file_name, 'w') as f:
+        f.write(str(var_value))
+    print(f"Saved to {file_name}")

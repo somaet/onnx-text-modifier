@@ -2,6 +2,36 @@
 /* eslint "no-global-assign": ["error", {"exceptions": [ "TextDecoder", "TextEncoder", "URLSearchParams" ] } ] */
 /* global view */
 
+
+function readFileToList(file, callback) {
+    const reader = new FileReader();
+    const dataList = [];
+  
+    // 파일을 읽는 작업이 완료되면 호출될 이벤트 핸들러
+    reader.onload = function (event) {
+      const fileContent = event.target.result;
+      // 파일 내용을 처리하여 리스트에 저장하는 작업을 수행하면 됩니다.
+      // 이 예시에서는 파일을 줄 바꿈 기준으로 나누어 리스트로 만듭니다.
+      const lines = fileContent.split('\n');
+      for (const line of lines) {
+        // 각 라인에서 \r (carriage return)를 제거하여 dataList에 추가합니다.
+        dataList.push(line.replace(/\r/g, ''));
+      }
+      // 작업이 끝나면 콜백 함수를 호출하여 외부에서 리스트에 접근할 수 있도록 합니다.
+      callback(dataList);
+    };
+  
+    // 파일 읽기 도중 에러가 발생했을 경우 처리
+    reader.onerror = function (event) {
+      console.error('Error occurred while reading the file:', event.target.error);
+      // 에러가 발생했을 때에는 빈 리스트로 콜백을 호출하여 알립니다.
+      callback([]);
+    };
+  
+    // 파일 읽기 시작
+    reader.readAsText(file);
+}
+
 var host = {};
 
 host.BrowserHost = class {
@@ -388,11 +418,10 @@ host.BrowserHost = class {
                     });
 
                     // 선택한 파일이 존재하면 '_open' 함수를 호출하고 선택한 파일과 전체 파일 리스트를 전달
-                    /*if (file) {
-                        this._open(file, files);
-                    }
-                    */
-                    
+                    if (file) {
+                        let dataList;
+                        dataList = readFileToList(file);
+                    }                   
                 }
             });
         }
@@ -715,6 +744,10 @@ host.BrowserHost = class {
         }).catch((error) => {
             this._view.error(error, null, null);
         });
+    }
+
+    _open_text(file) {
+        
     }
 
     _openGist(gist) {

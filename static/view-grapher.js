@@ -1,4 +1,3 @@
-
 var grapher = grapher || {};
 var dagre = dagre || require('./dagre');
 
@@ -242,6 +241,11 @@ grapher.Graph = class {
     }
 };
 
+function convertNodeNames(names) {
+    // 정규표현식을 이용하여 변환
+    return names.map(name => name.replace(/(input-name-|node-name-)/g, ''));
+  }
+
 grapher.Node = class {
 
     constructor() {
@@ -270,8 +274,11 @@ grapher.Node = class {
         this.element = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         if (this.id) {
             this.element.setAttribute('id', this.id);
-        }
-        this.element.setAttribute('class', this.class ? 'node ' + this.class : 'node');
+            //console.log(convertNodeNames([this.id])[0])
+        } 
+        i
+        this.element.setAttribute('class', this.class ? 'node2 ' + this.class : 'node2');
+        // this.element.setAttribute('class', this.class ? 'node ' + this.class : 'node');
         this.element.style.opacity = 0;
         parent.appendChild(this.element);
 

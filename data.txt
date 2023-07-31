@@ -1,0 +1,6 @@
+data, resnetv22_stage1_activation1
+resnetv22_stage1_activation0, resnetv22_stage2_batchnorm0_fwd
+resnetv22_stage1_activation0
+resnetv22_stage1_activation1
+resnetv22_stage2_batchnorm0_fwd
+resnetv22_dense0_fwd

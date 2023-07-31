@@ -2,6 +2,9 @@
 .node path { stroke: #333; fill: none; stroke-width: 1px; }
 .node line { stroke: #333; fill: none; stroke-width: 1px; }
 
+.node2 path { stroke: #b41717; fill: none; stroke-width: 5px; }
+.node2 line { stroke: #333; fill: none; stroke-width: 1px; }
+
 .node-item path { stroke-width: 0; stroke: #000; fill: #fff; }
 .node-item text { font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "PingFang SC"; font-size: 11px; text-rendering: geometricPrecision; }
 
@@ -71,6 +74,7 @@
 .cluster rect { stroke: #000; fill: #000; fill-opacity: 0.02; stroke-opacity: 0.06; stroke-width: 1px; }
 
 .select .node.border { stroke: #e00; stroke-width: 2px; }
+.select .node2.border { stroke: #e00; stroke-width: 2px; }
 .select.edge-path { stroke: #e00; stroke-width: 2px; marker-end: url("#arrowhead-vee-select"); }
 #arrowhead-vee-select { fill: #e00; }
 
@@ -86,6 +90,7 @@
     .node line { stroke: #1d1d1d; }
 
     .select .node.border { stroke: #b00; }
+    .select .node2.border { stroke: #b00; }
     .select.edge-path { stroke: #b00; }
     #arrowhead-vee-select { fill: #b00 }
 

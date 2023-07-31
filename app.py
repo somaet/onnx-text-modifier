@@ -5,6 +5,7 @@ from flask import Flask, render_template, request
 from onnx_modifier import onnxModifier
 from onnx_text import onnxText, onnxDownload
 import ose
+import onnx
 
 app = Flask(__name__)
 
@@ -32,14 +33,20 @@ def open_text():
 @app.route('/download_text', methods=['POST'])
 def text_and_download_model():
     modify_info = request.get_json()    
-
-
+    '''
     global onnx_download
     try:
         onnx_download = onnxDownload.from_model(onnx_modifier.model_proto, onnx_text.nodes)
         onnx_download.save_model()
     except NameError: 
         ose.save_node_names(onnx_modifier.model_proto, "./text_onnx/node_names.txt")
+    '''
+    try:
+        extract = ose.extract_text_model(onnx_modifier.model_proto, onnx_text.nodes)
+        onnx.save(extract, './text_onnx/extract_model.onnx')
+    except NameError: 
+        ose.save_node_names(onnx_modifier.model_proto, "./text_onnx/node_names.txt")
+
     return 'OK', 200
 
 # user end 

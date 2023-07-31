@@ -8,7 +8,7 @@ dist/
 *.onnx
 /test_onnx/
 /modified_onnx/
-
+/text_onnx/ 
 # self maintained files
 gym/
 local_tmp/

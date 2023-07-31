@@ -31,7 +31,6 @@ class onnxDownload:
             extract = ose.extract_model(model_proto, input_nodes, output_nodes)
             sub_models.append(extract)
         return cls(model_proto, nodes, sub_models)
-    
 
     def save_model(self, save_dir='./text_onnx'):
         print("saving model...")
@@ -41,3 +40,4 @@ class onnxDownload:
             save_path = os.path.join(save_dir, f'text_{i}_submodel.onnx')
             onnx.save(submodel, save_path)
         print("model saved in {} !".format(save_dir))
+
