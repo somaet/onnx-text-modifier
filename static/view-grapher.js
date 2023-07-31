@@ -276,7 +276,6 @@ grapher.Node = class {
             this.element.setAttribute('id', this.id);
             //console.log(convertNodeNames([this.id])[0])
         } 
-        i
         this.element.setAttribute('class', this.class ? 'node2 ' + this.class : 'node2');
         // this.element.setAttribute('class', this.class ? 'node ' + this.class : 'node');
         this.element.style.opacity = 0;
