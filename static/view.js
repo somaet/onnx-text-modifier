@@ -1062,7 +1062,7 @@ view.Node = class extends grapher.Node {
         const category = type && type.category ? type.category : '';
         if (category) {
             styles.push('node-item-type-' + category.toLowerCase());
-            console.log(category.toLowerCase())
+            //console.log(category.toLowerCase())
         }
         if (typeof type.name !== 'string' || !type.name.split) { // #416
             const identifier = this.context.model && this.context.model.identifier ? this.context.model.identifier : '?';

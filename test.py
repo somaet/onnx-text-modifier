@@ -17,7 +17,7 @@ def read_txt_file_to_list(file_path):
         print(f"File not found: {file_path}")
         return []
 
-
+'''
 def _build_name2obj_dict(objs):  # type: ignore
         return {obj.name: obj for obj in objs}
 
@@ -26,17 +26,21 @@ node = read_txt_file_to_list("./text_onnx/node_data.txt")
 
 extract = ose.extract_text_model(model, node)
 onnx.save(extract, './hello.onnx')
+'''
+
+model = onnx.load("./text_onnx/resnet18-v2-7.onnx")
+model2 = onnx.shape_inference.infer_shapes(model)
 
 
+# print(model.graph.input)
+with open('./model_graph1.txt', 'w') as file:
+    file.write(str(model2.graph.input))
 
+with open('./model_graph2.txt', 'w') as file:
+    file.write(str(model2.graph.output))
 
-
-
-
-
-
-
-
+with open('./model_graph13.txt', 'w') as file:
+    file.write(str(model2.graph.value_info))
 
 
 '''

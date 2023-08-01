@@ -96,7 +96,7 @@ class Extractor:
     ) -> list[NodeProto]:
         reachable_nodes = []  # type: ignore[var-annotated]
         for name in output_names:
-            print(output_names, name)
+            # print(output_names, name)
             self._dfs_search_reachable_nodes(name, input_names, reachable_nodes)
         # needs to be topology sorted.
         nodes = [n for n in self.graph.node if n in reachable_nodes]
@@ -188,7 +188,10 @@ class Extractor:
     ) -> ModelProto:
         
         inputs = self._collect_new_inputs(input_names)
+        
+
         outputs = self._collect_new_outputs(output_names)
+        
         nodes = self._collect_reachable_nodes(input_names, output_names)
         initializer, value_info = self._collect_reachable_tensors(nodes)
         local_functions = self._collect_referred_local_functions(nodes)
@@ -201,7 +204,8 @@ class Extractor:
         self,
         node_names: list[str]
     ) -> ModelProto:
-        print(node_names[0])
+        #print(node_names[0])
+        # print([node_names[0]])
         inputs = self._collect_new_inputs([node_names[0]])
         outputs = self._collect_new_outputs([node_names[-1]])
         nodes = self._ose_reachable_nodes(node_names)
@@ -251,6 +255,7 @@ def save_node_names(model_proto, output_file):
         for node in model.graph.node:
             # Write the node name to the file
             f.write(node.name + '\n')
+        f.write(model.graph.output[0].name + '\n')
 
 
 def save_to_txt(var_name, var_value, folder='./profiling/'):

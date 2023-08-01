@@ -28,11 +28,13 @@ def open_text():
     text_file = request.files['file']
     global onnx_text 
     onnx_text = onnxText.from_stream(text_file.stream)
+    print(onnx_text.nodes)
     return 'OK', 200
 
 @app.route('/download_text', methods=['POST'])
 def text_and_download_model():
     modify_info = request.get_json()    
+    print(modify_info)
     '''
     global onnx_download
     try:

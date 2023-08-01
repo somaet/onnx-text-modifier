@@ -350,14 +350,14 @@ host.BrowserHost = class {
             });
             openFileDialog.addEventListener('change', (e) => { // file 요소는 보안상의 이유로 자바스크립트를 통해 클릭 이벤트를 실행하는 것을 허용하지 않음 
                 if (e.target && e.target.files && e.target.files.length > 0) {
-                    console.log(e.target)
-                    console.log(e.target.files) 
-                    console.log(e.target.files.length)
+                    // console.log(e.target)
+                    // console.log(e.target.files) 
+                    // console.log(e.target.files.length)
                     const files = Array.from(e.target.files);
-                    console.log(files)
+                    // console.log(files)
                     const file = files.find((file) => this._view.accept(file.name));
-                    console.log(file)
-                    console.log(files[0]==file)
+                    //console.log(file)
+                    // console.log(files[0]==file)
                     this.upload_filename = file.name;
                     var form = new FormData();
                     form.append('file', file);
@@ -401,7 +401,7 @@ host.BrowserHost = class {
                     console.log(files)
                     // const file = files.find((file) => this._view.accept(file.name));
                     const file = files[0]
-                    console.log(file)
+                    // console.log(file)
                     this.upload_filename = file.name;
                     var form = new FormData();
                     form.append('file', file);
@@ -417,7 +417,7 @@ host.BrowserHost = class {
                     }).then(function (text) {
                         console.log('POST response: '); // 서버 응답을 콘솔에 출력 (텍스트로 반환된 내용)
                         // Should be 'OK' if everything was successful
-                        console.log(text);
+                        // console.log(text);
                     });
 
                     // 선택한 파일이 존재하면 '_open' 함수를 호출하고 선택한 파일과 전체 파일 리스트를 전달
